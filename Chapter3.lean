@@ -1,4 +1,4 @@
-q/-! Examples with Proposition and Proofs -/
+/-! Examples with Proposition and Proofs -/
 section constructive
 
 -- this is really significant that these are implicit arguments
