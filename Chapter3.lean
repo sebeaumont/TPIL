@@ -216,7 +216,7 @@ example : (p → q) → (¬q → ¬p) :=
 
 /- Q. is EFQ constructive? The only reasonable way to construct
    False is by absurd (contradiction) which is not constructive 
-   either AFAIK. -/
+   either AFAIK. See below for this question again. -/
 
 end constructive
 
