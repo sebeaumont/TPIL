@@ -214,10 +214,6 @@ example : (p → q) → (¬q → ¬p) :=
       -- to form p -> False (¬p)
       λ hp : p => hnq (h hp)
 
-/- Q. is EFQ constructive? The only reasonable way to construct
-   False is by absurd (contradiction) which is not constructive 
-   either AFAIK. See below for this question again. -/
-
 end constructive
 
 -- Here be Dragons! ;-) poor Brouwer would not be happy here...
@@ -362,7 +358,10 @@ example : ¬(p ↔ ¬p) :=
 /- Ex falso sequitur quod libet (EFQ) : we've used this quite a
    bit above but I'm not sure of it's constructive
    credentials... fortunately you can never construct it and be
-   sound -/ 
+   sound - 
+   But it's ok - see: 
+   [https://plato.stanford.edu/entries/logic-intuitionistic/#RejeTertNonDatu](EFQ is constructive) -/
+ 
 example {p q : Prop} (hp : p) (hnp : ¬p) : q :=
    False.elim (hnp hp)
 
