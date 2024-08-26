@@ -1,14 +1,14 @@
 /-! Chapter4.lean - Notes and Examples -/
 
 section universal
-/- Universal quantification and dependent function types 
+/- Universal quantification and dependent function types
   See: [[id:45EC5276-F395-41C0-A0D6-166BDF74EB5E][Introduction and Elimination]]
 -/
 
 
-/- Here another way of stating hypotheses/premises - personally I like to seem
+/- Here another way of stating hypotheses/premises - personally I like to see
 them in place so that the theorem reads well independently although this can be
-used tastefull to reduce notational clutter.  -/
+used tastefully to reduce notational clutter.  -/
 
 -- r is a binary relation
 variable (α : Type) (r : α → α → Prop)
@@ -22,13 +22,14 @@ variable (trans_r : ∀ {x y z}, r x y → r y z → r x z)
 example (a b c d : α) (hab : r a b) (hcb : r c b) (hcd : r c d) : r a d :=
   trans_r (trans_r hab (symm_r hcb)) hcd
 
-/- Nota: impredicativity of Prop 
+/- Nota: impredicativity of Prop
    -----------------------------
    It is the typing rule for dependent arrow types, and the universal quantifier
    in particular, that distinguishes Prop from other types. Suppose we have α :
    Sort i and β : Sort j, where the expression β may depend on a variable x :
    α. Then (x : α) → β is an element of Sort (imax i j), where imax i j is the
    maximum of i and j if j is not 0, and 0 otherwise.  -/
+
 end universal
 
 /- Equality - is an equivalence relation -/
@@ -63,7 +64,7 @@ example (α : Type) (a b : α) (p : α → Prop)
 #check Eq.subst
 
 
-/- calculation based proofs -/
+/- calculation based equality proofs -/
 section calculation
 
 variable (a b c d e : Nat)
@@ -193,7 +194,7 @@ theorem even_plus_even₂ (h1 : is_even a) (h2 : is_even b) : is_even (a + b) :=
   match h1, h2 with
   | ⟨w1, hw1⟩, ⟨w2, hw2⟩ => ⟨w1 + w2, by rw [hw1, hw2, Nat.mul_add]⟩
 
--- let's be really concise  
+-- let's be really concise
 theorem even_plus_even : is_even a ∧ is_even b → is_even (a + b) :=
   λ ⟨⟨w1, hw1⟩, ⟨w2, hw2⟩⟩ => ⟨w1 + w2, by rw [hw1, hw2, Nat.mul_add]⟩
 
@@ -218,4 +219,3 @@ example (h : ¬ ∀ x, ¬ p x) : ∃ x, p x :=
       show False from h h2)
 
 end existential
-
