@@ -1,4 +1,4 @@
-/-! Chapter4.lean - Notes and Examples -/
+/-! Chapter4.lean - Quantifiers and Equality -/
 
 section universal
 /- Universal quantification and dependent function types
@@ -22,7 +22,7 @@ variable (trans_r : ∀ {x y z}, r x y → r y z → r x z)
 example (a b c d : α) (hab : r a b) (hcb : r c b) (hcd : r c d) : r a d :=
   trans_r (trans_r hab (symm_r hcb)) hcd
 
-/- Nota: impredicativity of Prop
+/- Nota: Impredicativity of Prop
    -----------------------------
    It is the typing rule for dependent arrow types, and the universal quantifier
    in particular, that distinguishes Prop from other types. Suppose we have α :
@@ -73,7 +73,7 @@ variable (h2 : b = c + 1)
 variable (h3 : c = d)
 variable (h4 : e = 1 + d)
 
-theorem T₁ : a = e :=
+example : a = e :=
   calc
     a = b      := h1
     _ = c + 1  := h2
@@ -126,8 +126,9 @@ end equality
 
 section existential
 
+-- Nota: ∃ x : α, p is sugar for Exists (λ x : α => p)
+
 #check Exists.intro
-#check Exists.elim
 
 example : ∃ x : Nat, x > 0 :=
   have h : 1 > 0 := Nat.zero_lt_succ 0
@@ -139,11 +140,13 @@ example (x : Nat) (h : x > 0) : ∃ y, y < x :=
 example (x y z : Nat) (hxy : x < y) (hyz : y < z) : ∃ w, x < w ∧ w < z :=
   Exists.intro y (And.intro hxy hyz)
 
-#check @Exists.intro -- ∀ {α : Sort u_1} {p : α → Prop} (w : α), p w → Exists p
+#check @Exists.elim
 
--- Exists.elim
+/- Exists.elim cooked four ways... -/
+
 variable (α : Type) (p q : α → Prop)
 
+-- full form with sugar
 example (h : ∃ x, p x ∧ q x) : ∃ x, q x ∧ p x :=
   Exists.elim h
     (fun w =>
@@ -171,7 +174,7 @@ example (h : ∃ x, p x ∧ q x) : ∃ x, q x ∧ p x :=
   let ⟨w, hpw, hqw⟩ := h
   ⟨w, hqw, hpw⟩
 
--- implicit match with abstraction
+-- implicit match with abstraction - this is the neatest
 example : (∃ x, p x ∧ q x) → ∃ x, q x ∧ p x :=
   λ ⟨w, hpw, hqw⟩ => ⟨w, hqw, hpw⟩
 

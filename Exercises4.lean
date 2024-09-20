@@ -1,46 +1,48 @@
 section exercises
 
-/- these are the exercises from chapter 4 -/
-def even (n : Nat) : Prop := 
+/- these are the exercise (solutions) from chapter 4 -/
+def even (n : Nat) : Prop :=
   ∃ k : Nat, n = 2 * k
 
-def divides (n m : Nat) : Prop := 
-  ∃ k, k * n = m 
+def divides (n m : Nat) : Prop :=
+  ∃ k, k * n = m
 
-def prime (n : Nat) : Prop := 
-  ¬∃ k : Nat, divides k n ∧ (k > 1) ∧ ¬(k = 1)
- 
+def prime (n : Nat) : Prop :=
+  ¬∃ k : Nat, divides k n ∧ (k > 1) ∧ ¬(k = n)
 
+example (h: prime 7) : Prop := sorry
+    
+  
 variable (α : Type) (p q : α → Prop)
 variable (r : Prop)
 
 example : (∃ _ : α, r) → r :=
   λ ⟨_, hr⟩ => hr
 
-example (a : α) : r → (∃ _ : α, r) := 
+example (a : α) : r → (∃ _ : α, r) :=
   λ h : r => ⟨a, h⟩ -- Exists.intro
 
-example : (∃ x, p x ∧ r) → (∃ x, p x) ∧ r := 
+example : (∃ x, p x ∧ r) → (∃ x, p x) ∧ r :=
   λ ⟨hx, ⟨hp, hr⟩⟩ => ⟨⟨hx, hp⟩, hr⟩
 
--- #check Exists.elim
+#check Exists.elim
 
-/- Looks like the quantifer distributes over the disjunction. -/
-example : (∃ x, p x ∨ q x) → (∃ x, p x) ∨ (∃ x, q x) := 
+/- The quantifer (∃) can distribute over the disjunction. -/
+example : (∃ x, p x ∨ q x) → (∃ x, p x) ∨ (∃ x, q x) :=
   λ ⟨w, hw⟩ =>
-    Or.elim hw 
-      (λ hp : p w => 
+    Or.elim hw
+      (λ hp : p w =>
         Or.inl ⟨w, hp⟩)
-      (λ hq : q w => 
+      (λ hq : q w =>
         Or.inr ⟨w, hq⟩)
 
 
-example : (∃ x, p x) ∨ (∃ x, q x) → (∃ x, p x ∨ q x) := 
+example : (∃ x, p x) ∨ (∃ x, q x) → (∃ x, p x ∨ q x) :=
   (λ h : (∃ x, p x) ∨ (∃ x, q x) =>
     Or.elim h
-      (λ ⟨w, hpw⟩ => 
+      (λ ⟨w, hpw⟩ =>
         ⟨w, Or.inl hpw⟩)
-      (λ ⟨w, hqw⟩ => 
+      (λ ⟨w, hqw⟩ =>
         ⟨w, Or.inr hqw⟩))
 
 
@@ -151,30 +153,30 @@ end classical
 
 -- some assertions and conjectures
 
-def infinitely_many_primes : Prop := 
-  ∀ n : Nat, ∃ m : Nat, m > n ∧ prime m  
+def infinitely_many_primes : Prop :=
+  ∀ n : Nat, ∃ m : Nat, m > n ∧ prime m
 
-def Fermat_prime (n : Nat) : Prop := 
+def Fermat_prime (n : Nat) : Prop :=
   ∀ k : Nat, n = 2 ^ (2 ^ k) ∧ k > 0
 
-def infinitely_many_Fermat_primes : Prop := 
-  ∀ n : Nat, ∃ m : Nat, m > n ∧ Fermat_prime m  
+def infinitely_many_Fermat_primes : Prop :=
+  ∀ n : Nat, ∃ m : Nat, m > n ∧ Fermat_prime m
 
 -- every number greater than 2 is the sum of two primes
-def Goldbach_conjecture : Prop := 
+def Goldbach_conjecture : Prop :=
   ∀ n : Nat, n > 2 ∧ ∃ k l : Nat, prime k ∧ prime l ∧ n = l + k
 
 def odd (n : Nat) : Prop :=
   ∃ k : Nat, n = 2 * k + 1
 
 -- every odd number greater than 5 is the sum of three primes
-def Goldbach's_weak_conjecture : Prop := 
-  ∀ n : Nat, n > 5 ∧ odd n ∧ ∃ l k m : Nat, prime l ∧ prime k ∧ prime m ∧ n = l + k + m  
+def Goldbach's_weak_conjecture : Prop :=
+  ∀ n : Nat, n > 5 ∧ odd n ∧ ∃ l k m : Nat, prime l ∧ prime k ∧ prime m ∧ n = l + k + m
 
 /- Wikipedia: no three positive integers a, b, and c satisfy the equation a^n +
    b^n = c^n for any integer value of n greater than 2. The cases n = 1 and n = 2
    have been known since antiquity to have infinitely many solutions. -/
-def Fermat's_last_theorem : Prop := 
+def Fermat's_last_theorem : Prop :=
   ∀ n : Nat, n > 2 ∧ ¬∃ a b c : Nat, a^n + b^n = c^n
 
 end exercises

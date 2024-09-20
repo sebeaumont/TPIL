@@ -50,3 +50,5 @@ def ident.{u} {α : Type u} (x : α) := x
 #eval ident "forty two"
 
 #check @ident
+
+#check Prop
